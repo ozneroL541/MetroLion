@@ -7,16 +7,22 @@ public class lineas {
         private static final short C = 2;
         private static final short D = 3;
     }
-    private static final String[][] linea = {
+    private final static class transshipment {
+        private final static String Charpennes = "Charpennes - Charles Hernu";
+        private final static String HoteldeVille = "Hôtel de Ville - Louis Pradel";
+        private final static String Bellecour = "Bellecour";
+        private final static String SaxeGambetta = "Saxe - Gambetta";
+    }
+    private static final String[][] line = {
         {       
             "Perrache",
             "Ampère - Victor Hugo",
-            "Bellecour",
+            transshipment.Bellecour,
             "Cordeliers",
-            "Hôtel de Ville - Louis Pradel",
+            transshipment.HoteldeVille,
             "Foch",
             "Masséna",
-            "Charpennes - Charles Hernu",
+            transshipment.Charpennes,
             "République - Villeurbanne",
             "Gratte-Ciel",
             "Flachet - Alain Gilles",
@@ -25,11 +31,11 @@ public class lineas {
             "Vaulx-en-Velin - La Soie"
         },
         {
-            "Charpennes - Charles Hernu",
+            transshipment.Charpennes,
             "Brotteaux",
             "Gare Part-Dieu - Vivier Merle",
             "Place Guichard - Bourse du Travail",
-            "Saxe - Gambetta",
+            transshipment.SaxeGambetta,
             "Jean Macé",
             "Place Jean Jaurès",
             "Debourg",
@@ -37,7 +43,7 @@ public class lineas {
             "Oullins Gare"
         },
         {
-            "Hôtel de Ville - Louis Pradel",
+            transshipment.HoteldeVille,
             "Croix-Paquet",
             "Croix-Rousse",
             "Hénon",
@@ -48,7 +54,7 @@ public class lineas {
             "Valmy",
             "Gorge de Loup",
             "Vieux Lyon - Cathédrale Saint-Jean",
-            "Bellecour",
+            transshipment.Bellecour,
             "Guillotière - Gabriel Péri",
             "Saxe - Gambetta",
             "Garibaldi",
@@ -75,20 +81,22 @@ public class lineas {
             1, 2, 3, 2, 1, 2, 1, 3, 1, 2, 1, 2, 2, 2
         }
     };
-    private final static class tras {
-        private final static short[][] Charpennes = { {line_num.A, line_num.B}, {7, 0} };
-        private final static short[][] HoteldeVille = { {line_num.A, line_num.C}, {4, 0} };
-        private final static short[][] Bellecour = { {line_num.A, line_num.D}, {2, 4} };
-        private final static short[][] SaxeGambetta = { {line_num.B, line_num.D}, {4, 6} };
-    }
+
     private static final short tras_time = 3;
-    
-    public static short TrasTime( String station, short linea ) {
+
+    /**
+     * Check if the station is a transshipment one.
+     * If it is a transshipment station the method returns the transshipment time.
+     * If it is not a transshipment station the method returns 0.
+     * @param station station to check
+     * @return transshipment time if it'a a transshipment station
+     */
+    public static short TrasTime( String station) {
         switch (station) {
-            case "Cordeliers":
-            case "Hôtel de Ville - Louis Pradel":
-            case "Bellecour":
-            case "Saxe - Gambetta":
+            case transshipment.Charpennes:
+            case transshipment.HoteldeVille:
+            case transshipment.Bellecour:
+            case transshipment.SaxeGambetta:
                 return tras_time;
             default:
                 return 0;
