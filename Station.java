@@ -216,7 +216,11 @@ public class Station {
         }
         // If the station are not on the same line check if one of them is a transshipment station
         if ( ! sameLine(near_stat) ) {
-            // TODO
+            // Check if the station is a transshipment one
+            if ( isTransshipmentStation() ) {} else if ( near_stat.isTransshipmentStation() ) {} else {
+                // The stations are not near
+                return -1;
+            }
         }
         return 0;
     }
