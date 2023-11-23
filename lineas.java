@@ -9,19 +9,19 @@ public class lineas {
     }
     private final String[][] linea = {
         {       
-            "Vaulx-en-Velin - La Soie",
-            "Cusset",
-            "Flachet - Alain Gilles",
-            "Gratte-Ciel",
-            "République - Villeurbanne",
-            "Charpennes - Charles Hernu",
-            "Masséna",
-            "Foch",
-            "Hôtel de Ville",
-            "Cordeliers",
-            "Bellecour",
+            "Perrache",
             "Ampère - Victor Hugo",
-            "Perrache"
+            "Bellecour",
+            "Cordeliers",
+            "Hôtel de Ville - Louis Pradel",
+            "Foch",
+            "Masséna",
+            "Charpennes - Charles Hernu",
+            "République - Villeurbanne",
+            "Gratte-Ciel",
+            "Flachet - Alain Gilles",
+            "Cusset",
+            "Vaulx-en-Velin - La Soie"
         },
         {},
         {}
