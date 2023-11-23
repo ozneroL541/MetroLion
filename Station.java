@@ -1,20 +1,37 @@
-
-
-public class lineas {
+public class Station {
+    private short line = -1;
+    private short stat = -1;
+    private String StationName = "";
+    private short transshipment_time = 0;
+    /**
+     * Index of metro line
+     */
     private static final short i_line = 0;
+    /**
+     * Index of metro station
+     */
     private static final short i_stat = 1;
+    /**
+     * Set of metro lines
+     */
     private static final class line_num {
         private static final short A = 0;
         private static final short B = 1;
         private static final short C = 2;
         private static final short D = 3;
     }
+    /**
+     * Set of transshipment
+     */
     private final static class transshipment {
         private final static String Charpennes = "Charpennes - Charles Hernu";
         private final static String HoteldeVille = "Hôtel de Ville - Louis Pradel";
         private final static String Bellecour = "Bellecour";
         private final static String SaxeGambetta = "Saxe - Gambetta";
     }
+    /**
+     * List of metro stations
+     */
     private static final String[][] station = {
         {       
             "Perrache",
@@ -69,21 +86,18 @@ public class lineas {
             "Gare de Vénissieux4 Vénissieux station"
         }
     };
+    /**
+     * Time between metro stations
+     */
     private static final short[][] time = {
-        {
-            1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 2, 2
-        },
-        {
-            2, 1, 2, 2, 2, 2, 2, 1, 3
-        },
-        {
-            2, 2, 3, 2
-        },
-        {
-            1, 2, 3, 2, 1, 2, 1, 3, 1, 2, 1, 2, 2, 2
-        }
+        { 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 2, 2 },
+        { 2, 1, 2, 2, 2, 2, 2, 1, 3 },
+        { 2, 2, 3, 2 },
+        { 1, 2, 3, 2, 1, 2, 1, 3, 1, 2, 1, 2, 2, 2 }
     };
-
+    /**
+     *  Time of transshipment
+    */
     private static final short tras_time = 3;
 
     /**
@@ -122,4 +136,5 @@ public class lineas {
         }
         return null;
     }
+
 }
