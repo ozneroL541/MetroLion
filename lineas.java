@@ -75,4 +75,23 @@ public class lineas {
             1, 2, 3, 2, 1, 2, 1, 3, 1, 2, 1, 2, 2, 2
         }
     };
+    private final static class tras {
+        private final static short[][] Charpennes = { {line_num.A, line_num.B}, {7, 0} };
+        private final static short[][] HoteldeVille = { {line_num.A, line_num.C}, {4, 0} };
+        private final static short[][] Bellecour = { {line_num.A, line_num.D}, {2, 4} };
+        private final static short[][] SaxeGambetta = { {line_num.B, line_num.D}, {4, 6} };
+    }
+    private static final short tras_time = 3;
+    
+    public static short TrasTime( String station, short linea ) {
+        switch (station) {
+            case "Cordeliers":
+            case "Hôtel de Ville - Louis Pradel":
+            case "Bellecour":
+            case "Saxe - Gambetta":
+                return tras_time;
+            default:
+                return 0;
+        }
+    }
 }
