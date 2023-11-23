@@ -1,13 +1,13 @@
 
 
 public class lineas {
-    private final class line_num {
-        short A = 0;
-        short B = 1;
-        short C = 2;
-        short D = 3;
+    private static final class line_num {
+        private static final short A = 0;
+        private static final short B = 1;
+        private static final short C = 2;
+        private static final short D = 3;
     }
-    private final String[][] linea = {
+    private static final String[][] linea = {
         {       
             "Perrache",
             "Ampère - Victor Hugo",
@@ -21,6 +21,7 @@ public class lineas {
             "Gratte-Ciel",
             "Flachet - Alain Gilles",
             "Cusset",
+            "Laurent Bonnevay - Astroballe",
             "Vaulx-en-Velin - La Soie"
         },
         {
@@ -60,7 +61,7 @@ public class lineas {
             "Gare de Vénissieux4 Vénissieux station"
         }
     };
-    private final short[][] time = {
+    private static final short[][] time = {
         {
             1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 2, 2
         },
@@ -74,6 +75,4 @@ public class lineas {
             1, 2, 3, 2, 1, 2, 1, 3, 1, 2, 1, 2, 2, 2
         }
     };
-
-
 }
