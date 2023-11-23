@@ -187,14 +187,37 @@ public class Station {
     public boolean Exist() {
         return this.StationName != null;
     }
-
+    /**
+     * Check if is a transshipment station
+     * @return true if is a transshipment station
+     */
+    public boolean isTransshipmentStation() {
+        return this.transshipment_time > 0;
+    }
+    /**
+     * Check if an other station is on the same line
+     * @param other_stat other station
+     * @return true if the station is near
+     */
+    public boolean sameLine( Station other_stat ) {
+        return getLine() == other_stat.getLine();
+    }
     /**
      * Calculate the distance between a near station.
-     * @param station near station
+     * @param near_stat near station
      * @return distance
      */
-    public short NearStationTime( Station station ) {
+    public short NearStationTime( Station near_stat ) {
         // TODO
+        // Check for stations existance
+        if ( ! ( near_stat != null && near_stat.Exist() && Exist()) ) {
+            // Return error
+            return -2;
+        }
+        // If the station are not on the same line check if one of them is a transshipment station
+        if ( ! sameLine(near_stat) ) {
+            // TODO
+        }
         return 0;
     }
 }
