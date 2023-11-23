@@ -1,7 +1,7 @@
 public class Station {
     private short line = -1;
     private short stat = -1;
-    private String StationName = "";
+    private String StationName = null;
     private short transshipment_time = 0;
     /**
      * Index of metro line
@@ -100,6 +100,29 @@ public class Station {
     */
     private static final short tras_time = 3;
 
+    public Station( String station_name ) {
+        short [] indexes = getStationIndexes(station_name);
+        // If there are no indexes do not initialize the station
+        if (indexes != null && indexes.length == 2) {
+            this.line = indexes[i_line];
+            this.stat = indexes[i_stat ];
+            this.StationName = station[this.line][this.stat];
+            this.transshipment_time = TrasTime(this.StationName);
+        } else {
+            this.StationName = null;
+        }
+    }
+    /**
+     * Build a Station object knowing the line and the station number.
+     * @param line line
+     * @param stat station
+     */
+    public Station( short line, short stat ) {
+        this.line = line;
+        this.stat = stat;
+        this.StationName = station[this.line][this.stat];
+        this.transshipment_time = TrasTime(this.StationName);
+    }
     /**
      * Check if the station is a transshipment one.
      * If it is a transshipment station the method returns the transshipment time.
@@ -107,7 +130,7 @@ public class Station {
      * @param station station to check
      * @return transshipment time if it'a a transshipment station
      */
-    public static short TrasTime( String station) {
+    private static short TrasTime( String station) {
         switch (station) {
             case transshipment.Charpennes:
             case transshipment.HoteldeVille:
@@ -136,5 +159,42 @@ public class Station {
         }
         return null;
     }
+    /**
+     * Get line
+     * @return line
+     */
+    public short getLine() {
+        return line;
+    }
+    /**
+     * Get station
+     * @return station
+     */
+    public short getStat() {
+        return stat;
+    }
+    /**
+     * Get time of transshipment
+     * @return transshipment_time
+     */
+    public short getTransshipment_time() {
+        return transshipment_time;
+    }
+    /**
+     * Check for station existance
+     * @return true if station exist
+     */
+    public boolean Exist() {
+        return this.StationName != null;
+    }
 
+    /**
+     * Calculate the distance between a near station.
+     * @param station near station
+     * @return distance
+     */
+    public short NearStationTime( Station station ) {
+        // TODO
+        return 0;
+    }
 }
