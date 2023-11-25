@@ -1,3 +1,8 @@
+/**
+ * Class which rapresents the stations
+ * @author Lorenzo Radice
+ * @version 0.0.1
+ */
 public class Station {
     private short line = -1;
     private short stat = -1;
@@ -28,6 +33,10 @@ public class Station {
         private final static String HoteldeVille = "Hôtel de Ville - Louis Pradel";
         private final static String Bellecour = "Bellecour";
         private final static String SaxeGambetta = "Saxe - Gambetta";
+        private final static short[][] Charpennes_coor = { {line_num.A, line_num.B}, {7, 0} };
+        private final static short[][] HoteldeVille_coor = { {line_num.A, line_num.C}, {4, 0} };
+        private final static short[][] Bellecour_coor = { {line_num.A, line_num.D}, {2, 4} };
+        private final static short[][] SaxeGambetta_coor = { {line_num.B, line_num.D}, {4, 6} };
     }
     /**
      * List of metro stations
@@ -142,6 +151,28 @@ public class Station {
         }
     }
     /**
+     * Return the two possible coordinates which the transshipment station can have.
+     * @return coordinates
+     */
+    public short[][] otherCoordinates() {
+        if ( ! isTransshipmentStation() ) {
+            return null;
+        } else {
+            switch (this.StationName) {
+                case transshipment.Charpennes:
+                    return transshipment.Charpennes_coor;
+                case transshipment.HoteldeVille:
+                    return transshipment.HoteldeVille_coor;
+                case transshipment.Bellecour:
+                    return transshipment.Bellecour_coor;
+                case transshipment.SaxeGambetta:
+                    return transshipment.SaxeGambetta_coor;
+                default:
+                    return null;
+            }
+        }
+    }
+    /**
      * This method returns an array of two shorts.
      * First number is the index of the line.
      * Second number is the index of the station.
@@ -202,8 +233,12 @@ public class Station {
     public boolean sameLine( Station other_stat ) {
         return getLine() == other_stat.getLine();
     }
+    public boolean hasSameCoordinates( short o_line, short o_stat ) {
+        return ((this.line == o_line) && (this.stat == o_stat));
+    }
     /**
      * Calculate the distance between a near station.
+     * In case of error return a negative number.
      * @param near_stat near station
      * @return distance
      */
@@ -214,10 +249,41 @@ public class Station {
             // Return error
             return -2;
         }
+        short[] coo1 = new short[2];
+        short[] coo2 = new short[2];
+        short i = 0;
+        short time = 0;
         // If the station are not on the same line check if one of them is a transshipment station
         if ( ! sameLine(near_stat) ) {
+            short [][] o_coor = null;
+            i = 0;
             // Check if the station is a transshipment one
-            if ( isTransshipmentStation() ) {} else if ( near_stat.isTransshipmentStation() ) {} else {
+            if ( isTransshipmentStation() ) {
+                coo1[i_line] = near_stat.getLine();
+                coo1[i_stat] = near_stat.getStat();
+                o_coor = otherCoordinates();
+                if ( ! hasSameCoordinates(o_coor[i_line][i], o_coor[i_stat][i]) ) {
+                    coo2[i_line] = o_coor[i_stat][i];
+                    coo2[i_stat] = o_coor[i_stat][i];
+                } else {
+                    i++;
+                    coo2[i_line] = o_coor[i_stat][i];
+                    coo2[i_stat] = o_coor[i_stat][i];
+                }
+            } else if ( near_stat.isTransshipmentStation() ) {
+                coo1[i_line] = getLine();
+                coo1[i_stat] = getStat();
+                o_coor = otherCoordinates();
+                if ( ! near_stat.hasSameCoordinates(o_coor[i_line][i], o_coor[i_stat][i]) ) {
+                    coo2[i_line] = o_coor[i_stat][i];
+                    coo2[i_stat] = o_coor[i_stat][i];
+                } else {
+                    i++;
+                    coo2[i_line] = o_coor[i_stat][i];
+                    coo2[i_stat] = o_coor[i_stat][i];
+                }
+                o_coor = near_stat.otherCoordinates();
+            } else {
                 // The stations are not near
                 return -1;
             }
