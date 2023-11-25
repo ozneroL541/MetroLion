@@ -252,7 +252,8 @@ public class Station {
         short[] coo1 = new short[2];
         short[] coo2 = new short[2];
         short i = 0;
-        short time = 0;
+        short return_time = -1;
+        int min_stat = -1;
         // If the station are not on the same line check if one of them is a transshipment station
         if ( ! sameLine(near_stat) ) {
             short [][] o_coor = null;
@@ -282,12 +283,22 @@ public class Station {
                     coo2[i_line] = o_coor[i_stat][i];
                     coo2[i_stat] = o_coor[i_stat][i];
                 }
-                o_coor = near_stat.otherCoordinates();
             } else {
                 // The stations are not near
                 return -1;
             }
+        } else {
+            coo1[i_line] = getLine();
+            coo2[i_line] = getLine();
+            coo1[i_stat] = getStat();
+            coo2[i_stat] = near_stat.getStat();
         }
-        return 0;
+        if (coo1[i_line] == coo2[i_line]) {
+            min_stat = Math.min(coo1[i_stat], coo2[i_stat]);
+            return_time = time[coo1[i_line]][min_stat];
+        } else {
+            return -2;
+        }
+        return return_time;
     }
 }
