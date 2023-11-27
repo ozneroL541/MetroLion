@@ -301,4 +301,18 @@ public class Station {
         }
         return return_time;
     }
+    /**
+     * Calc the time of the path throw the stations.
+     * @param stations stations
+     * @return sum
+     */
+    public static short timePath( Station[] stations ) {
+        // TODO
+        short sum = 0;
+        for (short i = 0; i < stations.length - 1; i++) {
+            sum += stations[i].NearStationTime(stations[i+1]);
+            
+        }
+        return sum;
+    }
 }
