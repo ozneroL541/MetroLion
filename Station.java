@@ -43,10 +43,10 @@ public class Station {
         private final static short[][] SaxeGambetta_coor = { {line_num.B, line_num.D}, {4, 6} };
     }
     /**
-     * List of metro stations
+     * List of metro stations names
      * @author Lorenzo Radice
      */
-    private static final String[][] station = {
+    private static final String[][] station_names = {
         {       
             "Perrache",
             "Ampère - Victor Hugo",
@@ -126,7 +126,7 @@ public class Station {
         if (indexes != null && indexes.length == 2) {
             this.line = indexes[i_line];
             this.stat = indexes[i_stat ];
-            this.StationName = station[this.line][this.stat];
+            this.StationName = station_names[this.line][this.stat];
             this.transshipment_time = TrasTime(this.StationName);
         } else {
             this.StationName = null;
@@ -141,7 +141,7 @@ public class Station {
     public Station( short line, short stat ) {
         this.line = line;
         this.stat = stat;
-        this.StationName = station[this.line][this.stat];
+        this.StationName = station_names[this.line][this.stat];
         this.transshipment_time = TrasTime(this.StationName);
     }
     /**
@@ -195,9 +195,9 @@ public class Station {
      * @return short[2] indexes of the station
      */
     private static short[] getStationIndexes( String stat ) {
-        for (short i = 0; i < station.length; i++) {
-            for (short j = 0; j < station[i].length; j++) {
-                if ( stat.equals(station[i][j])) {
+        for (short i = 0; i < station_names.length; i++) {
+            for (short j = 0; j < station_names[i].length; j++) {
+                if ( stat.equals(station_names[i][j])) {
                     short [] r = {i, j};
                     return r;
                 }
