@@ -129,6 +129,7 @@ public class Station {
             this.StationName = station_names[this.line][this.stat];
             this.transshipment_time = TrasTime(this.StationName);
         } else {
+            System.err.println("Error Station: Invalid name\nStation not created.");
             this.StationName = null;
         }
     }
@@ -141,8 +142,14 @@ public class Station {
     public Station( short line, short stat ) {
         this.line = line;
         this.stat = stat;
-        this.StationName = station_names[this.line][this.stat];
-        this.transshipment_time = TrasTime(this.StationName);
+        if (this.line < station_names.length && this.stat < station_names[0].length) {
+            this.StationName = station_names[this.line][this.stat];
+            this.transshipment_time = TrasTime(this.StationName);
+        } else {
+            this.line = -1;
+            this.stat = -1;
+            System.err.println("Error Station: Not valid coordinates\nStation not created.");
+        }
     }
     /**
      * Check if the station is a transshipment one.
@@ -275,6 +282,7 @@ public class Station {
         // TODO
         // Check for stations existance
         if ( ! ( near_stat != null && near_stat.Exist() && Exist()) ) {
+            System.err.println("Error NearStationTime: Station does not exist.");
             // Return error
             return -2;
         }
@@ -313,6 +321,7 @@ public class Station {
                     coo2[i_stat] = o_coor[i_stat][i];
                 }
             } else {
+                System.err.println(" Error NearStationTime: Time between no near station is not computable.");
                 // The stations are not near
                 return -1;
             }
@@ -326,6 +335,7 @@ public class Station {
             min_stat = Math.min(coo1[i_stat], coo2[i_stat]);
             return_time = time[coo1[i_line]][min_stat];
         } else {
+            System.err.println("Error NearStationTime: Stations not on the same line.");
             return -2;
         }
         return return_time;
@@ -350,6 +360,9 @@ public class Station {
                     // Add the transshipment time
                     sum += stations[i].getTransshipment_time();
                 }
+            }
+            if (stations[i].NearStationTime(stations[i+1]) < 0) {
+                System.err.println("Error timePath: Two stations are not near.");
             }
             // Add the time to reach the next station
             sum += stations[i].NearStationTime(stations[i+1]);
