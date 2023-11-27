@@ -1,7 +1,7 @@
 /**
  * Class which rapresents the stations
  * @author Lorenzo Radice
- * @version 0.0.1
+ * @version 0.0.2
  */
 public class Station {
     private short line = -1;
@@ -10,14 +10,17 @@ public class Station {
     private short transshipment_time = 0;
     /**
      * Index of metro line
+     * @author Lorenzo Radice
      */
     private static final short i_line = 0;
     /**
      * Index of metro station
+     * @author Lorenzo Radice
      */
     private static final short i_stat = 1;
     /**
      * Set of metro lines
+     * @author Lorenzo Radice
      */
     private static final class line_num {
         private static final short A = 0;
@@ -27,6 +30,7 @@ public class Station {
     }
     /**
      * Set of transshipment
+     * @author Lorenzo Radice
      */
     private final static class transshipment {
         private final static String Charpennes = "Charpennes - Charles Hernu";
@@ -40,6 +44,7 @@ public class Station {
     }
     /**
      * List of metro stations
+     * @author Lorenzo Radice
      */
     private static final String[][] station = {
         {       
@@ -97,6 +102,7 @@ public class Station {
     };
     /**
      * Time between metro stations
+     * @author Lorenzo Radice
      */
     private static final short[][] time = {
         { 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 2, 2 },
@@ -106,9 +112,14 @@ public class Station {
     };
     /**
      *  Time of transshipment
+     * @author Lorenzo Radice
     */
     private static final short tras_time = 3;
-
+    /**
+     * Object constructor by station name
+     * @author Lorenzo Radice
+     * @param station_name name of the station
+     */
     public Station( String station_name ) {
         short [] indexes = getStationIndexes(station_name);
         // If there are no indexes do not initialize the station
@@ -123,6 +134,7 @@ public class Station {
     }
     /**
      * Build a Station object knowing the line and the station number.
+     * @author Lorenzo Radice
      * @param line line
      * @param stat station
      */
@@ -136,6 +148,7 @@ public class Station {
      * Check if the station is a transshipment one.
      * If it is a transshipment station the method returns the transshipment time.
      * If it is not a transshipment station the method returns 0.
+     * @author Lorenzo Radice
      * @param station station to check
      * @return transshipment time if it'a a transshipment station
      */
@@ -152,6 +165,7 @@ public class Station {
     }
     /**
      * Return the two possible coordinates which the transshipment station can have.
+     * @author Lorenzo Radice
      * @return coordinates
      */
     public short[][] otherCoordinates() {
@@ -176,6 +190,7 @@ public class Station {
      * This method returns an array of two shorts.
      * First number is the index of the line.
      * Second number is the index of the station.
+     * @author Lorenzo Radice
      * @param stat station
      * @return short[2] indexes of the station
      */
@@ -192,6 +207,7 @@ public class Station {
     }
     /**
      * Get line
+     * @author Lorenzo Radice
      * @return line
      */
     public short getLine() {
@@ -199,6 +215,7 @@ public class Station {
     }
     /**
      * Get station
+     * @author Lorenzo Radice
      * @return station
      */
     public short getStat() {
@@ -206,6 +223,7 @@ public class Station {
     }
     /**
      * Get time of transshipment
+     * @author Lorenzo Radice
      * @return transshipment_time
      */
     public short getTransshipment_time() {
@@ -213,6 +231,7 @@ public class Station {
     }
     /**
      * Check for station existance
+     * @author Lorenzo Radice
      * @return true if station exist
      */
     public boolean Exist() {
@@ -220,6 +239,7 @@ public class Station {
     }
     /**
      * Check if is a transshipment station
+     * @author Lorenzo Radice
      * @return true if is a transshipment station
      */
     public boolean isTransshipmentStation() {
@@ -227,18 +247,27 @@ public class Station {
     }
     /**
      * Check if an other station is on the same line
+     * @author Lorenzo Radice
      * @param other_stat other station
      * @return true if the station is near
      */
     public boolean sameLine( Station other_stat ) {
         return getLine() == other_stat.getLine();
     }
+    /**
+     * Check if the station has the coordinates of the arguments
+     * @author Lorenzo Radice
+     * @param o_line line
+     * @param o_stat station
+     * @return true if the station has got the coordinates of the arguments
+     */
     public boolean hasSameCoordinates( short o_line, short o_stat ) {
         return ((this.line == o_line) && (this.stat == o_stat));
     }
     /**
      * Calculate the distance between a near station.
      * In case of error return a negative number.
+     * @author Lorenzo Radice
      * @param near_stat near station
      * @return distance
      */
@@ -303,16 +332,31 @@ public class Station {
     }
     /**
      * Calc the time of the path throw the stations.
+     * @author Lorenzo Radice
      * @param stations stations
      * @return sum
      */
     public static short timePath( Station[] stations ) {
-        // TODO
         short sum = 0;
+        boolean transshipment = false;
+        // For each station
         for (short i = 0; i < stations.length - 1; i++) {
+            // If preavious station was a transshipment one check
+            if (transshipment) {
+                /* If the station before and the station after the transshipment one
+                 * are not on the same line add the transshipment time.
+                */
+                if (! stations[i+1].sameLine(stations[i-1])) {
+                    // Add the transshipment time
+                    sum += stations[i].getTransshipment_time();
+                }
+            }
+            // Add the time to reach the next station
             sum += stations[i].NearStationTime(stations[i+1]);
-            
+            // If the next station is a transshipment one keep in mind
+            transshipment = stations[i+1].isTransshipmentStation();
         }
+        // Return the time
         return sum;
     }
 }
