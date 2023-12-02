@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Class which rapresents the stations
  * @author Lorenzo Radice
@@ -140,9 +142,9 @@ public class Station {
      * @param stat station
      */
     public Station( short line, short stat ) {
-        this.line = line;
-        this.stat = stat;
-        if (this.line < station_names.length && this.stat < station_names[0].length) {
+        if (validCoordinates(line, stat)) {
+            this.line = line;
+            this.stat = stat;
             this.StationName = station_names[this.line][this.stat];
             this.transshipment_time = TrasTime(this.StationName);
         } else {
@@ -150,6 +152,18 @@ public class Station {
             this.stat = -1;
             System.err.println("Error Station: Not valid coordinates\nStation not created.");
         }
+    }
+    /**
+     * Check if coordinates are valid
+     * @param line line
+     * @param stat station
+     * @return true if the coordinates are valid
+     */
+    public static boolean validCoordinates( short line, short stat ) {
+        boolean b = false;
+        b = line >= 0 && stat >= 0;
+        b = b && line < station_names.length && stat < station_names[line].length;
+        return b;
     }
     /**
      * Check if the station is a transshipment one.
@@ -211,6 +225,14 @@ public class Station {
             }
         }
         return null;
+    }
+    /**
+     * Get Station Name
+     * @author Lorenzo Radice
+     * @return StationName
+     */
+    public String getStationName() {
+        return StationName;
     }
     /**
      * Get line
@@ -371,5 +393,105 @@ public class Station {
         }
         // Return the time
         return sum;
+    }
+    /**
+     * Get all the near stations
+     * @author Lorenzo Radice
+     * @return array of stations
+     */
+    public Station[] getNearStations() {
+        // TOBE returned
+        Station[] stations = null;
+        // Arraylist of stations
+        ArrayList<Station> stats = new ArrayList<Station>();
+        // Index
+        short i = 0;
+        // Line
+        short line = 0;
+        // Station
+        short stat = 0;
+        // Set line
+        line = this.line;
+        // Set Station
+        stat = (short) (this.stat - 1);
+        // Check existance
+        if (validCoordinates(line, stat)) {
+            stats.add(new Station(line, stat));
+        }
+        // Set Station
+        stat = (short) (this.stat + 1);
+        // Check existance
+        if (validCoordinates(line, stat)) {
+            stats.add(new Station(line, stat));
+        }
+        // Check if the station is a transshipment one
+        if (isTransshipmentStation()) {
+            // Get other coordinates
+            short[][] o_coor = otherCoordinates();
+            // Choose the others
+            if (hasSameCoordinates(o_coor[i_line][i], o_coor[i_stat][i])) {
+                // Increment if the current coordinates are already been used
+                i++;
+            }
+            // Set Line
+            line = o_coor[i_line][i];
+            // Set Station
+            stat = (short) (o_coor[i_stat][i] - 1);
+            // Check existance
+            if (validCoordinates(line, stat)) {
+                stats.add(new Station(line, stat));
+            }
+            // Set Station
+            stat = (short) (o_coor[i_stat][i] + 1);
+            // Check existance
+            if (validCoordinates(line, stat)) {
+                stats.add(new Station(line, stat));
+            }
+        }
+        // Get an array of stations
+        stations = stats.toArray( new Station[0] );
+        // Return the array
+        return stations;
+    }
+    /**
+     * Check if is the same station
+     * @author Lorenzo Radice
+     * @param o other station
+     * @return true if is the same station
+     */
+    public boolean equals( Station o ) {
+        return this.StationName.equals(o.getStationName());
+    }
+    /**
+     * Return the next stations.
+     * If the station is not a transshipment one the result is only one next station.
+     * @author Lorenzo Radice
+     * @param preavious preavious stations
+     * @return next stations
+     */
+    public Station[] getNextStations( Station previous ) {
+        // Near Stations
+        Station[] near = getNearStations();
+        // Return this
+        Station[] next = null;
+        // Indexes
+        short i = 0, j = 0;
+        // Check
+        if (near == null) {
+            return next;
+        }
+        next = new Station[near.length -1];
+        // Find the preavious
+        for ( i = 0; i < near.length; i++) {
+            if ( ! near[i].equals(previous) ) {
+                if ( j >= next.length ) {
+                    System.err.println("Error: The previous station is not near to the current one.");
+                    return null;
+                }
+                next[j++] = near[i];
+            }
+        }
+        // Return next stations
+        return next;
     }
 }
