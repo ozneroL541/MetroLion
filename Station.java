@@ -6,9 +6,13 @@ import java.util.ArrayList;
  * @version 0.0.2
  */
 public class Station {
+    // Line number
     private short line = -1;
+    // Station number
     private short stat = -1;
+    // Station name
     private String StationName = null;
+    // Time of transshipment
     private short transshipment_time = 0;
     /**
      * Index of metro line
@@ -152,6 +156,21 @@ public class Station {
             this.stat = -1;
             System.err.println("Error Station: Not valid coordinates\nStation not created.");
         }
+    }
+    @Override
+    public String toString() {
+        String str = "";
+        str += "Name:\t" + this.StationName + "\n";
+        str += "Line:\t" + (this.line + 1) + "\n";
+        str += "Station:\t" + (this.stat + 1) + "\n";
+        str += "Transshipment:\t";
+        if (isTransshipmentStation()) {
+            str += "Yes\n";
+            str += "Transshipment Time:\t" + this.transshipment_time + " min\n";
+        } else {
+            str += "No\n";
+        }
+        return str;
     }
     /**
      * Check if coordinates are valid
@@ -301,65 +320,99 @@ public class Station {
      * @return distance
      */
     public short NearStationTime( Station near_stat ) {
-        // TODO
         // Check for stations existance
         if ( ! ( near_stat != null && near_stat.Exist() && Exist()) ) {
             System.err.println("Error NearStationTime: Station does not exist.");
             // Return error
             return -2;
         }
+        // Coordinates 1
         short[] coo1 = new short[2];
+        // Coordinates 1
         short[] coo2 = new short[2];
+        // Index
         short i = 0;
+        // TOBE returned
         short return_time = -1;
+        // minimum station
         int min_stat = -1;
         // If the station are not on the same line check if one of them is a transshipment station
         if ( ! sameLine(near_stat) ) {
+            // Other Coordinates
             short [][] o_coor = null;
+            // Set index
             i = 0;
-            // Check if the station is a transshipment one
+            // Check if current the station is a transshipment one
             if ( isTransshipmentStation() ) {
+                // Assign the coordinates of the near station to coo1
                 coo1[i_line] = near_stat.getLine();
                 coo1[i_stat] = near_stat.getStat();
+                // Get other coordinates for transshipment station
                 o_coor = otherCoordinates();
+                // Use the alternative coordinates
                 if ( ! hasSameCoordinates(o_coor[i_line][i], o_coor[i_stat][i]) ) {
-                    coo2[i_line] = o_coor[i_stat][i];
+                    // If the current coordinates are different from i coordinates use them
+                    coo2[i_line] = o_coor[i_line][i];
                     coo2[i_stat] = o_coor[i_stat][i];
                 } else {
+                    // Increment i to get different coordinates
                     i++;
-                    coo2[i_line] = o_coor[i_stat][i];
+                    coo2[i_line] = o_coor[i_line][i];
                     coo2[i_stat] = o_coor[i_stat][i];
                 }
+            // Check if near the station is a transshipment one
             } else if ( near_stat.isTransshipmentStation() ) {
+                // Assign the coordinates of the current station to coo1
                 coo1[i_line] = getLine();
                 coo1[i_stat] = getStat();
+                // Get other coordinates for transshipment station
                 o_coor = otherCoordinates();
+                // Use the alternative coordinates
                 if ( ! near_stat.hasSameCoordinates(o_coor[i_line][i], o_coor[i_stat][i]) ) {
-                    coo2[i_line] = o_coor[i_stat][i];
+                    // If the current coordinates are different from i coordinates use them
+                    coo2[i_line] = o_coor[i_line][i];
                     coo2[i_stat] = o_coor[i_stat][i];
                 } else {
+                    // Increment i to get different coordinates
                     i++;
-                    coo2[i_line] = o_coor[i_stat][i];
+                    coo2[i_line] = o_coor[i_line][i];
                     coo2[i_stat] = o_coor[i_stat][i];
                 }
             } else {
+                // The stations are not near -> Error
                 System.err.println(" Error NearStationTime: Time between no near station is not computable.");
                 // The stations are not near
                 return -1;
             }
         } else {
+            // No station is a transshipment one so assign the current coordinates
             coo1[i_line] = getLine();
-            coo2[i_line] = getLine();
+            coo2[i_line] = near_stat.getLine();
             coo1[i_stat] = getStat();
             coo2[i_stat] = near_stat.getStat();
         }
+        // Check if the lines are the same
         if (coo1[i_line] == coo2[i_line]) {
+            // Calculate the minimum between the two stations
             min_stat = Math.min(coo1[i_stat], coo2[i_stat]);
-            return_time = time[coo1[i_line]][min_stat];
+            // Manage Exceptions
+            try {
+            // Return time is the time of the minimum station
+            return_time = time[coo1[i_line]][min_stat];   
+            } catch (IndexOutOfBoundsException e) {
+                // Error
+                System.err.println("Error: time not found.");
+                return -2;
+            } catch ( Exception e ) {
+                System.err.println("Error: time calculation failed.");
+                return -3;
+            }
         } else {
+            // Error
             System.err.println("Error NearStationTime: Stations not on the same line.");
             return -2;
         }
+        // Return time
         return return_time;
     }
     /**
@@ -478,16 +531,21 @@ public class Station {
         short i = 0, j = 0;
         // Check
         if (near == null) {
-            return next;
+            return null;
         }
+        // Assign next station 
         next = new Station[near.length -1];
         // Find the preavious
         for ( i = 0; i < near.length; i++) {
+            // If near station is the previous one discard it
             if ( ! near[i].equals(previous) ) {
+                // If j index is out of bound 
                 if ( j >= next.length ) {
+                    // Error
                     System.err.println("Error: The previous station is not near to the current one.");
                     return null;
                 }
+                // Assign and increment j index
                 next[j++] = near[i];
             }
         }
