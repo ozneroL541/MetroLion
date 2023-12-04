@@ -562,5 +562,11 @@ public class Station {
         System.out.println(b.getStationName());
         System.out.println();
         System.out.println(a.NearStationTime(b));
+        for (Station s : b.getNearStations()) {
+            System.out.println(s);
+        }
+        for (Station s : b.getNextStations(a)) {
+            System.out.println(s);
+        }
     }
 }
