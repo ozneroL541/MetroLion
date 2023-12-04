@@ -366,7 +366,7 @@ public class Station {
                 coo1[i_line] = getLine();
                 coo1[i_stat] = getStat();
                 // Get other coordinates for transshipment station
-                o_coor = otherCoordinates();
+                o_coor = near_stat.otherCoordinates();
                 // Use the alternative coordinates
                 if ( ! near_stat.hasSameCoordinates(o_coor[i_line][i], o_coor[i_stat][i]) ) {
                     // If the current coordinates are different from i coordinates use them
