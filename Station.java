@@ -557,6 +557,11 @@ public class Station {
     public static void main(String[] args) {
         Station a = new Station("Brotteaux");
         Station b = new Station("Charpennes - Charles Hernu");
+        Station[] c = {
+            new Station("Brotteaux"),
+            new Station("Gare Part-Dieu - Vivier Merle"),
+            new Station("Place Guichard - Bourse du Travail"),
+        };
         
         System.out.println(a.getStationName());
         System.out.println(b.getStationName());
@@ -570,5 +575,7 @@ public class Station {
         for (Station s : b.getNextStations(a)) {
             System.out.println(s);
         }
+        System.out.println("Path");
+        System.out.println( Station.timePath(c) );
     }
 }
