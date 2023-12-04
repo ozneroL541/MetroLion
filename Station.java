@@ -552,4 +552,15 @@ public class Station {
         // Return next stations
         return next;
     }
+
+    // TODO Remove test main
+    public static void main(String[] args) {
+        Station a = new Station("Brotteaux");
+        Station b = new Station("Charpennes - Charles Hernu");
+        
+        System.out.println(a.getStationName());
+        System.out.println(b.getStationName());
+        System.out.println();
+        System.out.println(a.NearStationTime(b));
+    }
 }
