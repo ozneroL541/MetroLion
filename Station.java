@@ -160,10 +160,10 @@ public class Station {
     @Override
     public String toString() {
         String str = "";
-        str += "Name:\t" + this.StationName + "\n";
-        str += "Line:\t" + (this.line + 1) + "\n";
-        str += "Station:\t" + (this.stat + 1) + "\n";
-        str += "Transshipment:\t";
+        str += "Name:\t\t\t" + this.StationName + "\n";
+        str += "Line:\t\t\t" + (this.line + 1) + "\n";
+        str += "Station:\t\t" + (this.stat + 1) + "\n";
+        str += "Transshipment:\t\t";
         if (isTransshipmentStation()) {
             str += "Yes\n";
             str += "Transshipment Time:\t" + this.transshipment_time + " min\n";
@@ -563,7 +563,7 @@ public class Station {
         System.out.println();
         System.out.println(a.NearStationTime(b));
         System.out.println("Near");
-        for (Station s : b.getNearStations()) {
+        for (Station s : a.getNearStations()) {
             System.out.println(s);
         }
         System.out.println("Next");
