@@ -66,18 +66,18 @@ public class MetroMap extends Application {
 
     private void actualizarContador() {
         if (!listaEstaciones.isEmpty()) {
-            moverYSumar(0);
+            avanzaEstacion(0);
         }
     }
     
-    private void moverYSumar(int indice) {
+    private void avanzaEstacion(int indice) {
         if (indice < listaEstaciones.size() - 1) {
             String estacionA = listaEstaciones.get(indice);
             String estacionB = listaEstaciones.get(indice + 1);
             
             moverCuadrado(estacionA, estacionB, () -> {
                 sumarPesoConexion(estacionA, estacionB);
-                moverYSumar(indice + 1);
+                avanzaEstacion(indice + 1);
             });
         }
     }
