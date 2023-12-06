@@ -553,6 +553,48 @@ public class Station {
         return next;
     }
 
+    public static List<String> camino(Station origen, Station destino) {
+
+    	if(origen.equals(destino))return null;
+    	List<String> camino = new ArrayList<>();
+		int cont = 0;
+		
+		if (origen.getLine()==destino.getLine()){
+			
+			int x = origen.getLine();
+			int y = origen.getCol(origen);
+			int z = destino.getCol(destino);
+			if (y<z) {
+				for(int i=y;i<=z;i++) {
+					camino.add(cont, getStationName(x,i));
+					cont++;
+				}// for
+			}
+			else {
+				for(int i=y;i>=z;i--) {
+					camino.add(cont, getStationName(x,i));
+					cont++;
+				}// for
+			}// else
+		}// if (misma linea)
+		
+		else {
+			camino = null;
+		}// else (distinta linea)
+
+		return camino;
+	}// camino
+    
+    public static int coste(List<String> camino){
+    	int coste = 0;
+    	int trasbordos = 0;
+    	for(int i=0;i<camino.size();i++) {
+    		//camino.get(i) para iterar sobre cada estación, hace falta una función que devuelva el index a partir del String
+    		//coste += time[x][y]
+    	}
+    	return coste + (trasbordos * tras_time);
+    }
+    
     // TODO Remove test main
     public static void main(String[] args) {
         Station a = new Station("Brotteaux");
