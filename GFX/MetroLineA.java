@@ -13,6 +13,7 @@ public class MetroLineA extends MetroLine {
     private static final int OFFSET_X = -30;
     private static final int OFFSET_Y = 25;
     private static final int LINE_HEIGHT = 15;
+    private static final int pesos[] = { 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 2, 2};
 
     public MetroLineA(Pane root) {
         super("A", Color.RED, LINE_Y, new String[]{
@@ -35,8 +36,21 @@ public class MetroLineA extends MetroLine {
                 root.getChildren().add(line);
             }
 
-            // Defino color de las estaciones
-            Circle stationCircle = new Circle(50 + i * STATION_SPACING, lineY, 5, (i == 2 || i == 4 || i == 7)? Color.BLACK : lineColor);
+            // Dibujar círculos para representar las estaciones
+            double x = 50 + i * STATION_SPACING;
+            double y = lineY;
+
+            // Anado la posicion de las estaciones y las estaciones a las que conecta
+            EstacionData data = new EstacionData(x, y);
+
+            if (i < stations.length - 1) 
+                data.addConexion(stations[i + 1].replaceAll("\n", " "), pesos[i]);
+            if (i > 0) 
+                data.addConexion(stations[i - 1].replaceAll("\n", " "), pesos[i - 1]);
+            
+            MetroMap.addEstacion(stations[i].replaceAll("\n", " "), data);
+
+            Circle stationCircle = new Circle(50 + i * STATION_SPACING, lineY, 5, lineColor);
             root.getChildren().add(stationCircle);
 
             String[] stationLines = stations[i].split("\n");

@@ -13,6 +13,7 @@ public class MetroLineB extends MetroLine {
     private static final int LINE_X = 540;
     private static final int OFFSET_X = 12;
     private static final int OFFSET_Y = 4;
+    private static final int pesos[] = { 2, 1, 2, 2, 2, 2, 2, 1, 3};
 
     public MetroLineB(Pane root) {
         super("B", Color.BLUE, LINE_X, new String[]{
@@ -34,10 +35,26 @@ public class MetroLineB extends MetroLine {
             }
 
             // Dibujar círculos para representar las estaciones
-            Circle stationCircle = new Circle(LINE_X, START_Y + i * STATION_SPACING, 5, (i == 4)? Color.BLACK : lineColor);
+            double x = LINE_X;
+            double y = START_Y + i * STATION_SPACING;
+            
+            // Anado la posicion de las estaciones y las estaciones a las que conecta
+            // Las estaciones que ya existen hay que anadir mas informacion
+            EstacionData data = new EstacionData(x, y);
+            if (stations[i].equals("Charpennes Charles Hernu"))
+                data = MetroMap.getEstacion(stations[i]);
+    
+            if (i < stations.length - 1)
+                data.addConexion(stations[i + 1], pesos[i]);
+            if (i > 0)
+                data.addConexion(stations[i - 1], pesos[i - 1]);
+    
+            MetroMap.addEstacion(stations[i], data);
+
+            Circle stationCircle = new Circle(LINE_X, START_Y + i * STATION_SPACING, 5, (i == 0)? Color.BLACK : lineColor);
             root.getChildren().add(stationCircle);
 
-            // Añadir nombres de estaciones, excepto para el primer punto
+            // Añadir nombres de estaciones
             if (i > 0) {
                 String[] stationLines = stations[i].split("\n");
                 for (int j = 0; j < stationLines.length; j++) {

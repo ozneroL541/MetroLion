@@ -9,13 +9,14 @@ import javafx.scene.text.Text;
 public class MetroLineD extends MetroLine {
 
     private static final int NUM_STATIONS = 15;
-    private static final int OFFSET_X = 10; // Desplazamiento del círculo
-    private static final int OFFSET_Y = 5; // Desplazamiento del círculo
+    private static final int OFFSET_X = 10;
+    private static final int OFFSET_Y = 5;
+    private static final int pesos[] = { 1, 2, 3, 2, 1, 2, 1, 3, 1, 2, 1, 2, 2, 2};
 
     public MetroLineD(Pane root) {
         super("D", Color.GREEN, 0, new String[] {
             "Gare de Vaise", "Valmy", "Gorge de Loup",
-            "Vieux Lyon Cathedrale St. Jean",
+            "Vieux Lyon Cathedrale St-Jean",
             "Bellecour", "Guillotiere", "Saxe Gambetta", "Garibaldi",
             "Sans-Souci", "Monplaisir Lumiere", "Grange Blanche", 
             "Laennec", "Mermoz Pinel", "Parilly", "Gare de Venissieux"
@@ -66,7 +67,27 @@ public class MetroLineD extends MetroLine {
                 stationX = bellecour[0] + spaceX * (i - 4); 
                 stationY = bellecour[1] + spaceY * (i - 4);
             }
-            Circle stationCircle = new Circle(stationX, stationY, 5, lineColor);
+            
+            double x = stationX;
+            double y = stationY;
+
+            // Anado la posicion de las estaciones y las estaciones a las que conecta
+            // Las estaciones que ya existen hay que anadir mas informacion
+            EstacionData data = new EstacionData(x, y);
+            if (stations[i].equals("Saxe Gambetta") || stations[i].equals("Bellecour"))
+                data = MetroMap.getEstacion(stations[i]);
+            
+            if (i < stations.length - 1) {
+                data.addConexion(stations[i + 1], pesos[i]);
+                System.out.println(stations[i]);
+            }
+            if (i > 0)
+                data.addConexion(stations[i - 1], pesos[i - 1]);
+
+            MetroMap.addEstacion(stations[i], data);
+
+            // Añadir nombres de estaciones, excepto para la 4 y la 6
+            Circle stationCircle = new Circle(stationX, stationY, 5, (i == 4 || i == 6)? Color.BLACK : lineColor);
             root.getChildren().add(stationCircle);
 
             if (i != 4 && i != 6) {
