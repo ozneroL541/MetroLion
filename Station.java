@@ -554,14 +554,17 @@ public class Station {
         return next;
     }
 
+public static String getStationName(int i, int j) {
+    	return station_names[i][j];
+    }
+	
 public static int getCol(Station stat) {
     	int x = stat.getLine();
     	int y = 0;
     	boolean encontrada = false;
     	while(encontrada==false) {
     		if(station_names[x][y]==stat.getStationName()) encontrada = true;
-    		else
-    			y++;
+    		else y++;
     	}
     	return y;
     }
