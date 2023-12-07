@@ -591,14 +591,30 @@ public static String getStationName(int i, int j) {
 		return camino;
 	}// camino
     
-    public static int coste(List<String> camino){
+    public static int coste(List<String> camino){ // devuelve el coste de un camino
     	int coste = 0;
     	int trasbordos = 0;
     	for(int i=0;i<camino.size();i++) {
-    		//camino.get(i) para iterar sobre cada estación, hace falta una función que devuelva el index a partir del String
-    		//coste += time[x][y]
+    		int x = StringAStation(camino.get(i)).get(0);// linea
+    		int y = StringAStation(camino.get(i)).get(1);// estación
+    		coste += time[x][y];
     	}
     	return coste + (trasbordos * tras_time);
+    }
+    
+    public static List<Integer> StringAStation(String nombre) {// devuelve una lista [i,j]con las coordenadas de la estación a partir de su nombre
+    	List<Integer> coordenadas = new ArrayList<>();
+    	
+    	for(int i=0;i<4;i++) {
+    		for(int j=0; j<station_names[i].length;j++) {
+    			if (station_names[i][j] == nombre) {
+    				coordenadas.add(i);
+    				coordenadas.add(j);
+    				return coordenadas;
+    			}
+    		}
+    	}
+    	return null;// si no existe estación con ese nombre, devuelve null
     }
     
     // TODO Remove test main
