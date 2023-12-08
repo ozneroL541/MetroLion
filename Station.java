@@ -321,7 +321,7 @@ public class Station {
      */
     public short NearStationTime( Station near_stat ) {
         // Check for stations existance
-        if ( ! ( near_stat != null && near_stat.Exist() && Exist()) ) {
+        if ( near_stat == null || !near_stat.Exist() || !Exist() ) {
             System.err.println("Error NearStationTime: Station does not exist.");
             // Return error
             return -2;
@@ -566,7 +566,19 @@ public class Station {
      * @return h(n)
      */
     public int heuristic( Station goal ) {
-        return 0;
+        int r = 0;
+        // If they are on the same line
+        if ( sameLine(goal) ) {
+            r = Math.abs( this.stat - goal.getStat() );
+        } else if ( isTransshipmentStation() ) {
+            //TODO
+            r = 20;
+        } else if ( goal.isTransshipmentStation() ) {
+            r = 20;
+        } else {
+            r = 20;
+        }
+        return r;
     }
 /*
 public static String getStationName(int i, int j) {
