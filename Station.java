@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class which rapresents the stations
@@ -65,7 +64,7 @@ public class Station {
             transshipment.Charpennes,
             "République - Villeurbanne",
             "Gratte-Ciel",
-            "Flachet - Alain Gilles",
+            "Flachet",
             "Cusset",
             "Laurent Bonnevay - Astroballe",
             "Vaulx-en-Velin - La Soie"
@@ -322,7 +321,7 @@ public class Station {
      */
     public short NearStationTime( Station near_stat ) {
         // Check for stations existance
-        if ( ! ( near_stat != null && near_stat.Exist() && Exist()) ) {
+        if ( near_stat == null || !near_stat.Exist() || !Exist() ) {
             System.err.println("Error NearStationTime: Station does not exist.");
             // Return error
             return -2;
@@ -553,7 +552,35 @@ public class Station {
         // Return next stations
         return next;
     }
-
+    /**
+     * This method return the weight of the next station for a search algorithm
+     * @param next next station
+     * @return weight of the next station
+     */
+    public int TimeForHeuristic( Station next ) {
+        return NearStationTime(next) + next.getTransshipment_time();
+    }
+    /**
+     * Calc the heurist to go to a goal Station from this one
+     * @param goal goal station
+     * @return h(n)
+     */
+    public int heuristic( Station goal ) {
+        int r = 0;
+        // If they are on the same line
+        if ( sameLine(goal) ) {
+            r = Math.abs( this.stat - goal.getStat() );
+        } else if ( isTransshipmentStation() ) {
+            //TODO
+            r = 20;
+        } else if ( goal.isTransshipmentStation() ) {
+            r = 20;
+        } else {
+            r = 20;
+        }
+        return r;
+    }
+/*
 public static String getStationName(int i, int j) {
     	return station_names[i][j];
     }
@@ -642,4 +669,5 @@ public static String getStationName(int i, int j) {
         System.out.println("Path");
         System.out.println( Station.timePath(c) );
     }
+*/
 }

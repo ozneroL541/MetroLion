@@ -1,9 +1,11 @@
 import java.util.*;
 
+/**
+ * A* Algorithm class
+ * @author Lorenzo Radice
+ * @version 0.0.1
+ */
 public class alg_Astar {
-    // TODO Adapt
-
-
     public static List<Station> reconstructPath(Map<Station, Station> cameFrom, Station current) {
         List<Station> totalPath = new ArrayList<>();
         totalPath.add(current);
@@ -36,14 +38,14 @@ public class alg_Astar {
          * to n currently known
          */
         Map<Station, Station> cameFrom = new HashMap<>();
-        Map<Station, Double> gScore = new HashMap<>();
-        gScore.put(start, 0.0);
+        Map<Station, Integer> gScore = new HashMap<>();
+        gScore.put(start, 0);
 
         /*
          * For node n, fScore[n] := gScore[n] + h(n). fScore[n] represents our current best guess as to
          * how cheap a path could be from start to finish if it goes through n.
          */
-        Map<Station, Double> fScore = new HashMap<>();
+        Map<Station, Integer> fScore = new HashMap<>();
         fScore.put(start, alg_Astar.HeuristicFunction.estimateCost(start, goal));
 
         while (!openSet.isEmpty()) {
@@ -65,10 +67,10 @@ public class alg_Astar {
                  * d(current,neighbor) is the weight of the edge from current to neighbor
                  * tentative_gScore is the distance from start to the neighbor through current
                  */
-                double tentativeGScore = gScore.getOrDefault(current, Double.POSITIVE_INFINITY)
-                        + current.NearStationTime(neighbor);
+                int tentativeGScore = gScore.getOrDefault(current, Integer.MAX_VALUE)
+                        + current.TimeForHeuristic(neighbor);
 
-                if (tentativeGScore < gScore.getOrDefault(neighbor, Double.POSITIVE_INFINITY)) {
+                if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
                     /*
                      * This path to neighbor is better than any previous one. Record it!
                      */
@@ -85,19 +87,25 @@ public class alg_Astar {
         return Collections.emptyList(); // No path found
     }
     public interface HeuristicFunction {
-        // TODO Heuristic Function
-        static double estimateCost(Station node, Station goal) {
-            return 0;
+        /**
+         * Heuristc function
+         * @param node current node
+         * @param goal goal node
+         * @return h(n)
+         */
+        static int estimateCost(Station node, Station goal) {
+            return node.heuristic(goal);
         }
     }
     // TODO Remove Test main
+    /*
     public static void main(String[] args) {
-        Station a = new Station("Gare de Vaise");
-        Station b = new Station("Hénon");
-        HeuristicFunction h = null;
+        Station a = new Station("Valmy");
+        Station b = new Station("Flachet");
         List<Station> ls = aStarSearch(a, b, null);
         for (Station l : ls) {
             System.out.println(l.toString());
         }
     }
+    */
 }
