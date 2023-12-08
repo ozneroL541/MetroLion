@@ -553,7 +553,7 @@ public class Station {
         // Return next stations
         return next;
     }
-
+/*
 public static String getStationName(int i, int j) {
     	return station_names[i][j];
     }
@@ -642,4 +642,5 @@ public static String getStationName(int i, int j) {
         System.out.println("Path");
         System.out.println( Station.timePath(c) );
     }
+*/
 }
