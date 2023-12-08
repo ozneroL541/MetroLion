@@ -4,7 +4,7 @@ public class alg_Astar {
     // TODO Adapt
 
 
-    public List<Station> reconstructPath(Map<Station, Station> cameFrom, Station current) {
+    public static List<Station> reconstructPath(Map<Station, Station> cameFrom, Station current) {
         List<Station> totalPath = new ArrayList<>();
         totalPath.add(current);
         while (cameFrom.containsKey(current)) {
@@ -22,7 +22,7 @@ public class alg_Astar {
      * @param h
      * @return list of stations
      */
-    public List<Station> aStarSearch(Station start, Station goal, HeuristicFunction h) {
+    public static List<Station> aStarSearch(Station start, Station goal, HeuristicFunction h) {
         /*
         * The set of discovered nodes that may need to be (re-)expanded.
         * Initially, only the start node is known.
@@ -44,7 +44,7 @@ public class alg_Astar {
          * how cheap a path could be from start to finish if it goes through n.
          */
         Map<Station, Double> fScore = new HashMap<>();
-        fScore.put(start, h.estimateCost(start, goal));
+        fScore.put(start, alg_Astar.HeuristicFunction.estimateCost(start, goal));
 
         while (!openSet.isEmpty()) {
             /*
@@ -74,7 +74,7 @@ public class alg_Astar {
                      */
                     cameFrom.put(neighbor, current);
                     gScore.put(neighbor, tentativeGScore);
-                    fScore.put(neighbor, tentativeGScore + h.estimateCost(neighbor, goal));
+                    fScore.put(neighbor, tentativeGScore + alg_Astar.HeuristicFunction.estimateCost(neighbor, goal));
                     openSet.add(neighbor);
                 }
             }
@@ -85,8 +85,19 @@ public class alg_Astar {
         return Collections.emptyList(); // No path found
     }
     public interface HeuristicFunction {
-        double estimateCost(Station node, Station goal);
+        // TODO Heuristic Function
+        static double estimateCost(Station node, Station goal) {
+            return 0;
+        }
     }
-
-    // Define Station class and related methods as needed
+    // TODO Remove Test main
+    public static void main(String[] args) {
+        Station a = new Station("Gare de Vaise");
+        Station b = new Station("Hénon");
+        HeuristicFunction h = null;
+        List<Station> ls = aStarSearch(a, b, null);
+        for (Station l : ls) {
+            System.out.println(l.toString());
+        }
+    }
 }
