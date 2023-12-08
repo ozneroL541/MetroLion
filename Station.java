@@ -64,7 +64,7 @@ public class Station {
             transshipment.Charpennes,
             "République - Villeurbanne",
             "Gratte-Ciel",
-            "Flachet - Alain Gilles",
+            "Flachet",
             "Cusset",
             "Laurent Bonnevay - Astroballe",
             "Vaulx-en-Velin - La Soie"
@@ -551,6 +551,14 @@ public class Station {
         }
         // Return next stations
         return next;
+    }
+    /**
+     * This method return the weight of the next station for a search algorithm
+     * @param next next station
+     * @return weight of the next station
+     */
+    public int TimeForHeuristic( Station next ) {
+        return NearStationTime(next) + next.getTransshipment_time();
     }
 /*
 public static String getStationName(int i, int j) {

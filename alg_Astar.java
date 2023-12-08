@@ -68,7 +68,7 @@ public class alg_Astar {
                  * tentative_gScore is the distance from start to the neighbor through current
                  */
                 double tentativeGScore = gScore.getOrDefault(current, Double.POSITIVE_INFINITY)
-                        + current.NearStationTime(neighbor);
+                        + current.TimeForHeuristic(neighbor);
 
                 if (tentativeGScore < gScore.getOrDefault(neighbor, Double.POSITIVE_INFINITY)) {
                     /*
@@ -94,8 +94,8 @@ public class alg_Astar {
     }
     // TODO Remove Test main
     public static void main(String[] args) {
-        Station a = new Station("Gare de Vaise");
-        Station b = new Station("Hénon");
+        Station a = new Station("Valmy");
+        Station b = new Station("Flachet");
         List<Station> ls = aStarSearch(a, b, null);
         for (Station l : ls) {
             System.out.println(l.toString());
