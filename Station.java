@@ -560,6 +560,14 @@ public class Station {
     public int TimeForHeuristic( Station next ) {
         return NearStationTime(next) + next.getTransshipment_time();
     }
+    /**
+     * Calc the heurist to go to a goal Station from this one
+     * @param goal goal station
+     * @return h(n)
+     */
+    public int heuristic( Station goal ) {
+        return 0;
+    }
 /*
 public static String getStationName(int i, int j) {
     	return station_names[i][j];

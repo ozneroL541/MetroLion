@@ -87,9 +87,14 @@ public class alg_Astar {
         return Collections.emptyList(); // No path found
     }
     public interface HeuristicFunction {
-        // TODO Heuristic Function
+        /**
+         * Heuristc function
+         * @param node current node
+         * @param goal goal node
+         * @return h(n)
+         */
         static int estimateCost(Station node, Station goal) {
-            return 0;
+            return node.heuristic(goal);
         }
     }
     // TODO Remove Test main
