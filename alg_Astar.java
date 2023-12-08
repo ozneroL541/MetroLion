@@ -1,9 +1,11 @@
 import java.util.*;
 
+/**
+ * A* Algorithm class
+ * @author Lorenzo Radice
+ * @version 0.0.1
+ */
 public class alg_Astar {
-    // TODO Adapt
-
-
     public static List<Station> reconstructPath(Map<Station, Station> cameFrom, Station current) {
         List<Station> totalPath = new ArrayList<>();
         totalPath.add(current);
@@ -94,7 +96,6 @@ public class alg_Astar {
     public static void main(String[] args) {
         Station a = new Station("Gare de Vaise");
         Station b = new Station("Hénon");
-        HeuristicFunction h = null;
         List<Station> ls = aStarSearch(a, b, null);
         for (Station l : ls) {
             System.out.println(l.toString());
