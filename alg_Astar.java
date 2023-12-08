@@ -98,6 +98,7 @@ public class alg_Astar {
         }
     }
     // TODO Remove Test main
+    /*
     public static void main(String[] args) {
         Station a = new Station("Valmy");
         Station b = new Station("Flachet");
@@ -106,4 +107,5 @@ public class alg_Astar {
             System.out.println(l.toString());
         }
     }
+    */
 }
