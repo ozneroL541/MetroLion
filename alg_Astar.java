@@ -38,14 +38,14 @@ public class alg_Astar {
          * to n currently known
          */
         Map<Station, Station> cameFrom = new HashMap<>();
-        Map<Station, Double> gScore = new HashMap<>();
-        gScore.put(start, 0.0);
+        Map<Station, Integer> gScore = new HashMap<>();
+        gScore.put(start, 0);
 
         /*
          * For node n, fScore[n] := gScore[n] + h(n). fScore[n] represents our current best guess as to
          * how cheap a path could be from start to finish if it goes through n.
          */
-        Map<Station, Double> fScore = new HashMap<>();
+        Map<Station, Integer> fScore = new HashMap<>();
         fScore.put(start, alg_Astar.HeuristicFunction.estimateCost(start, goal));
 
         while (!openSet.isEmpty()) {
@@ -67,10 +67,10 @@ public class alg_Astar {
                  * d(current,neighbor) is the weight of the edge from current to neighbor
                  * tentative_gScore is the distance from start to the neighbor through current
                  */
-                double tentativeGScore = gScore.getOrDefault(current, Double.POSITIVE_INFINITY)
+                int tentativeGScore = gScore.getOrDefault(current, Integer.MAX_VALUE)
                         + current.TimeForHeuristic(neighbor);
 
-                if (tentativeGScore < gScore.getOrDefault(neighbor, Double.POSITIVE_INFINITY)) {
+                if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
                     /*
                      * This path to neighbor is better than any previous one. Record it!
                      */
@@ -88,7 +88,7 @@ public class alg_Astar {
     }
     public interface HeuristicFunction {
         // TODO Heuristic Function
-        static double estimateCost(Station node, Station goal) {
+        static int estimateCost(Station node, Station goal) {
             return 0;
         }
     }
