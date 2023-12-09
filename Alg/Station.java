@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Class which rapresents the stations
  * @author Lorenzo Radice
- * @version 0.0.2
+ * @version 1.0.0
  */
 public class Station {
     // Line number
@@ -564,6 +564,7 @@ public class Station {
     }
     /**
      * Calc the heurist to go to a goal Station from this one
+     * @author Lorenzo Radice
      * @param goal goal station
      * @return h(n)
      */
@@ -572,104 +573,33 @@ public class Station {
         // If they are on the same line
         if ( sameLine(goal) ) {
             r = Math.abs( this.stat - goal.getStat() );
-        } else if ( isTransshipmentStation() ) {
-            //TODO
-            r = 20;
-        } else if ( goal.isTransshipmentStation() ) {
-            r = 20;
         } else {
-            r = 20;
+            r = probable_h() + goal.probable_h() + 3 + tras_time;
         }
         return r;
     }
-/*
-public static String getStationName(int i, int j) {
-    	return station_names[i][j];
-    }
-	
-	
-    public static List<String> camino(Station origen, Station destino) {
-
-    	if(origen.equals(destino))return null;
-    	List<String> camino = new ArrayList<>();
-		int cont = 0;
-		
-		if (origen.getLine()==destino.getLine()){
-			
-			int x = origen.getLine();
-			int y = origen.getCol(origen);
-			int z = destino.getCol(destino);
-			if (y<z) {
-				for(int i=y;i<=z;i++) {
-					camino.add(cont, getStationName(x,i));
-					cont++;
-				}// for
-			}
-			else {
-				for(int i=y;i>=z;i--) {
-					camino.add(cont, getStationName(x,i));
-					cont++;
-				}// for
-			}// else
-		}// if (misma linea)
-		
-		else {
-			camino = null;
-		}// else (distinta linea)
-
-		return camino;
-	}// camino
-    
-    public static int coste(List<String> camino){ // devuelve el coste de un camino
-    	int coste = 0;
-    	int trasbordos = 0;
-    	for(int i=0;i<camino.size();i++) {
-    		int x = StringAStation(camino.get(i)).get(0);// linea
-    		int y = StringAStation(camino.get(i)).get(1);// estación
-    		coste += time[x][y];
-    	}
-    	return coste + (trasbordos * tras_time);
-    }
-    
-    public static List<Integer> StringAStation(String nombre) {// devuelve una lista [i,j]con las coordenadas de la estación a partir de su nombre
-    	List<Integer> coordenadas = new ArrayList<>();
-    	
-    	for(int i=0;i<4;i++) {
-    		for(int j=0; j<station_names[i].length;j++) {
-    			if (station_names[i][j] == nombre) {
-    				coordenadas.add(i);
-    				coordenadas.add(j);
-    				return coordenadas;
-    			}
-    		}
-    	}
-    	return null;// si no existe estación con ese nombre, devuelve null
-    }
-    
-    // TODO Remove test main
-    public static void main(String[] args) {
-        Station a = new Station("Brotteaux");
-        Station b = new Station("Charpennes - Charles Hernu");
-        Station[] c = {
-            new Station("Brotteaux"),
-            new Station("Gare Part-Dieu - Vivier Merle"),
-            new Station("Place Guichard - Bourse du Travail"),
-        };
-        
-        System.out.println(a.getStationName());
-        System.out.println(b.getStationName());
-        System.out.println();
-        System.out.println(a.NearStationTime(b));
-        System.out.println("Near");
-        for (Station s : a.getNearStations()) {
-            System.out.println(s);
+    /**
+     * Calc a probable H(n) to arrive to the nearest transshipment station
+     * @author Lorenzo Radice
+     * @return partial h(n)
+     */
+    private int probable_h() {
+        int r = 40;
+        switch (this.line) {
+            case line_num.A:
+            case line_num.B:
+                r = 3;
+                break;
+            case line_num.C:
+                r = this.stat;
+                break;
+            case line_num.D:
+                r = Math.abs(transshipment.Bellecour_coor[i_stat][1] - this.stat);
+                break;
+            default:
+                r = 40;
+                break;
         }
-        System.out.println("Next");
-        for (Station s : b.getNextStations(a)) {
-            System.out.println(s);
-        }
-        System.out.println("Path");
-        System.out.println( Station.timePath(c) );
+        return r;
     }
-*/
 }

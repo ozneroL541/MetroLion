@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * A* Algorithm class
  * @author Lorenzo Radice
- * @version 0.0.1
+ * @version 1.0.0
  */
 public class alg_Astar {
     public static List<Station> reconstructPath(Map<Station, Station> cameFrom, Station current) {
