@@ -34,7 +34,7 @@ public class MetroMap extends Application {
     private Rectangle cuadradoAmarillo;
         private static final List<String> ESTACIONES_ORDENADAS = Arrays.asList(
         "Ampère - Victor Hugo", "Bellecour", "Brotteaux", "Charpennes - Charles Hernu",
-        "Cordeliers", "Croix-Paquet", "Croix-Rousse", "Cusset", "Debourg",
+        "Cordeliers", "Croix-Paquet", "Croix-Rousse", "Cuire", "Cusset", "Debourg",
         "Flachet", "Foch", "Garibaldi", "Gare de Vaise", "Gare de Vénissieux",
         "Gare Part-Dieu - Vivier Merle", "Grange Blanche", "Gratte-Ciel", 
         "Guillotière - Gabriel Péri", "Hénon", "Hôtel de Ville - Louis Pradel", "Jean Macé", 
