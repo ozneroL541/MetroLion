@@ -1,3 +1,5 @@
+package Alg;
+
 import java.util.*;
 
 /**
@@ -54,7 +56,7 @@ public class alg_Astar {
              */
             Station current = openSet.stream()
                     .min(Comparator.comparingDouble(fScore::get))
-                    .orElseThrow();
+                    .orElseThrow(null);
 
             if (current.equals(goal)) {
                 return reconstructPath(cameFrom, current);

@@ -1,3 +1,5 @@
+package Alg;
+
 import java.util.ArrayList;
 
 /**
@@ -103,7 +105,7 @@ public class Station {
             "Laënnec",
             "Mermoz - Pinel",
             "Parilly",
-            "Gare de Vénissieux4 Vénissieux station"
+            "Gare de Vénissieux"
         }
     };
     /**
