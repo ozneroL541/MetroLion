@@ -17,10 +17,10 @@ public class MetroLineA extends MetroLine {
 
     public MetroLineA(Pane root) {
         super("A", Color.RED, LINE_Y, new String[]{
-            "Perrache", "Ampere\nVictor Hugo", "Bellecour", "Cordeliers",
-            "Hotel de\nVille Louis\nPradel", "Foch", "Massena", "Charpennes\nCharles\nHernu",
-            "Republique\nVilleurbanne", "Gratte-Ciel", "Flachet", "Cusset",
-            "Laurent\nBonnevay\nAstroballe", "Vaulx-en-Velin\nLa Soie"
+            "Perrache", "Ampère\n- Victor Hugo", "Bellecour", "Cordeliers",
+            "Hôtel de\nVille - Louis\nPradel", "Foch", "Masséna", "Charpennes\n- Charles\nHernu",
+            "République\n- Villeurbanne", "Gratte-Ciel", "Flachet", "Cusset",
+            "Laurent\nBonnevay\n- Astroballe", "Vaulx-en-Velin\n- La Soie"
             
         }, root);
     }
@@ -61,8 +61,6 @@ public class MetroLineA extends MetroLine {
                     stationName = new Text(65 + i * STATION_SPACING + OFFSET_X, -65 + lineY + OFFSET_Y + j * LINE_HEIGHT, stationLines[j]); 
                 else 
                     stationName = new Text(55 + i * STATION_SPACING + OFFSET_X, lineY + OFFSET_Y + j * LINE_HEIGHT, stationLines[j]);
-                if (i == 2)
-                    System.out.println(55 + i * STATION_SPACING + OFFSET_X);
 
                 root.getChildren().add(stationName);
             }

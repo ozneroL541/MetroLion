@@ -17,9 +17,9 @@ public class MetroLineB extends MetroLine {
 
     public MetroLineB(Pane root) {
         super("B", Color.BLUE, LINE_X, new String[]{
-            "Charpennes Charles Hernu", "Brotteaux", "Gare Part-Dieu Vivier Merle",
-            "Place Guichard Bourse du Travail", "Saxe Gambetta", "Jean Mace",
-            "Place Jean Jaures", "Debourg", "Stade de Gerland", "Oullins Gare", 
+            "Charpennes - Charles Hernu", "Brotteaux", "Gare Part-Dieu - Vivier Merle",
+            "Place Guichard - Bourse du Travail", "Saxe - Gambetta", "Jean Macé",
+            "Place Jean Jaurès", "Debourg", "Stade de Gerland", "Oullins Gare", 
         }, root);
     }
 
@@ -41,7 +41,7 @@ public class MetroLineB extends MetroLine {
             // Anado la posicion de las estaciones y las estaciones a las que conecta
             // Las estaciones que ya existen hay que anadir mas informacion
             EstacionData data = new EstacionData(x, y);
-            if (stations[i].equals("Charpennes Charles Hernu"))
+            if (stations[i].equals("Charpennes - Charles Hernu"))
                 data = MetroMap.getEstacion(stations[i]);
     
             if (i < stations.length - 1)

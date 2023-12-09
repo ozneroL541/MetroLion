@@ -16,10 +16,10 @@ public class MetroLineD extends MetroLine {
     public MetroLineD(Pane root) {
         super("D", Color.GREEN, 0, new String[] {
             "Gare de Vaise", "Valmy", "Gorge de Loup",
-            "Vieux Lyon Cathedrale St-Jean",
-            "Bellecour", "Guillotiere", "Saxe Gambetta", "Garibaldi",
-            "Sans-Souci", "Monplaisir Lumiere", "Grange Blanche", 
-            "Laennec", "Mermoz Pinel", "Parilly", "Gare de Venissieux"
+            "Vieux Lyon - Cathédrale Saint-Jean",
+            "Bellecour", "Guillotière - Gabriel Péri", "Saxe - Gambetta", "Garibaldi",
+            "Sans Souci", "Monplaisir - Lumière", "Grange Blanche", 
+            "Laënnec", "Mermoz - Pinel", "Parilly", "Gare de Vénissieux"
         }, root);
     }
 
@@ -74,13 +74,11 @@ public class MetroLineD extends MetroLine {
             // Anado la posicion de las estaciones y las estaciones a las que conecta
             // Las estaciones que ya existen hay que anadir mas informacion
             EstacionData data = new EstacionData(x, y);
-            if (stations[i].equals("Saxe Gambetta") || stations[i].equals("Bellecour"))
+            if (stations[i].equals("Saxe - Gambetta") || stations[i].equals("Bellecour"))
                 data = MetroMap.getEstacion(stations[i]);
             
-            if (i < stations.length - 1) {
+            if (i < stations.length - 1)
                 data.addConexion(stations[i + 1], pesos[i]);
-                System.out.println(stations[i]);
-            }
             if (i > 0)
                 data.addConexion(stations[i - 1], pesos[i - 1]);
 

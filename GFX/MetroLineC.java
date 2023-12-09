@@ -18,7 +18,7 @@ public class MetroLineC extends MetroLine {
 
     public MetroLineC(Pane root) {
         super("B", Color.ORANGE, LINE_X, new String[]{
-            "Cuire", "Henon", "Croix-Rousse", "Croix-Paquet", "Hotel de Ville Louis Pradel",
+            "Cuire", "Hénon", "Croix-Rousse", "Croix-Paquet", "Hôtel de Ville - Louis Pradel",
         }, root);
     }
 
@@ -40,7 +40,7 @@ public class MetroLineC extends MetroLine {
             // Anado la posicion de las estaciones y las estaciones a las que conecta
             // Las estaciones que ya existen hay que anadir mas informacion
             EstacionData data = new EstacionData(x, y);
-            if (stations[i].equals("Hotel de Ville Louis Pradel"))
+            if (stations[i].equals("Hôtel de Ville - Louis Pradel"))
                 data = MetroMap.getEstacion(stations[i]);
 
             if (i < stations.length - 1)
