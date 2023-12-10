@@ -99,15 +99,4 @@ public class alg_Astar {
             return node.heuristic(goal);
         }
     }
-    // TODO Remove Test main
-    /*
-    public static void main(String[] args) {
-        Station a = new Station("Valmy");
-        Station b = new Station("Flachet");
-        List<Station> ls = aStarSearch(a, b, null);
-        for (Station l : ls) {
-            System.out.println(l.toString());
-        }
-    }
-    */
 }
