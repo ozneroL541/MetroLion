@@ -574,7 +574,7 @@ public class Station {
         if ( sameLine(goal) ) {
             r = Math.abs( this.stat - goal.getStat() );
         } else {
-            r = probable_h() + goal.probable_h() + 3 + tras_time;
+            r = probable_h() + goal.probable_h() + 4 + tras_time;
         }
         return r;
     }
@@ -587,8 +587,10 @@ public class Station {
         int r = 40;
         switch (this.line) {
             case line_num.A:
+                r = 11;
+                break;
             case line_num.B:
-                r = 3;
+                r = 10;
                 break;
             case line_num.C:
                 r = this.stat;
