@@ -3,29 +3,11 @@ package Alg;
 import java.util.ArrayList;
 
 /**
- * Class which rapresents the stations
+ * Station
  * @author Lorenzo Radice
  * @version 1.0.0
  */
 public class Station {
-    // Line number
-    private short line = -1;
-    // Station number
-    private short stat = -1;
-    // Station name
-    private String StationName = null;
-    // Time of transshipment
-    private short transshipment_time = 0;
-    /**
-     * Index of metro line
-     * @author Lorenzo Radice
-     */
-    private static final short i_line = 0;
-    /**
-     * Index of metro station
-     * @author Lorenzo Radice
-     */
-    private static final short i_stat = 1;
     /**
      * Set of metro lines
      * @author Lorenzo Radice
@@ -50,6 +32,16 @@ public class Station {
         private final static short[][] Bellecour_coor = { {line_num.A, line_num.D}, {2, 4} };
         private final static short[][] SaxeGambetta_coor = { {line_num.B, line_num.D}, {4, 6} };
     }
+    /**
+     * Index of metro line
+     * @author Lorenzo Radice
+     */
+    private static final short i_line = 0;
+    /**
+     * Index of metro station
+     * @author Lorenzo Radice
+     */
+    private static final short i_stat = 1;
     /**
      * List of metro stations names
      * @author Lorenzo Radice
@@ -124,6 +116,96 @@ public class Station {
     */
     private static final short tras_time = 3;
     /**
+     * Check if coordinates are valid
+     * @param line line
+     * @param stat station
+     * @return true if the coordinates are valid
+     */
+    public static boolean validCoordinates( short line, short stat ) {
+        boolean b = false;
+        b = line >= 0 && stat >= 0;
+        b = b && line < station_names.length && stat < station_names[line].length;
+        return b;
+    }
+    /**
+     * Calc the time of the path throw the stations.
+     * @author Lorenzo Radice
+     * @param stations stations
+     * @return sum
+     */
+    public static short timePath( Station[] stations ) {
+        short sum = 0;
+        boolean transshipment = false;
+        // For each station
+        for (short i = 0; i < stations.length - 1; i++) {
+            // If preavious station was a transshipment one check
+            if (transshipment) {
+                /* If the station before and the station after the transshipment one
+                 * are not on the same line add the transshipment time.
+                */
+                if (! stations[i+1].sameLine(stations[i-1])) {
+                    // Add the transshipment time
+                    sum += stations[i].getTransshipment_time();
+                }
+            }
+            if (stations[i].NearStationTime(stations[i+1]) < 0) {
+                System.err.println("Error timePath: Two stations are not near.");
+            }
+            // Add the time to reach the next station
+            sum += stations[i].NearStationTime(stations[i+1]);
+            // If the next station is a transshipment one keep in mind
+            transshipment = stations[i+1].isTransshipmentStation();
+        }
+        // Return the time
+        return sum;
+    }
+    /**
+     * Check if the station is a transshipment one.
+     * If it is a transshipment station the method returns the transshipment time.
+     * If it is not a transshipment station the method returns 0.
+     * @author Lorenzo Radice
+     * @param station station to check
+     * @return transshipment time if it'a a transshipment station
+     */
+    private static short TrasTime( String station) {
+        switch (station) {
+            case transshipment.Charpennes:
+            case transshipment.HoteldeVille:
+            case transshipment.Bellecour:
+            case transshipment.SaxeGambetta:
+                return tras_time;
+            default:
+                return 0;
+        }
+    }
+    /**
+     * This method returns an array of two shorts.
+     * First number is the index of the line.
+     * Second number is the index of the station.
+     * @author Lorenzo Radice
+     * @param stat station
+     * @return short[2] indexes of the station
+     */
+    private static short[] getStationIndexes( String stat ) {
+        for (short i = 0; i < station_names.length; i++) {
+            for (short j = 0; j < station_names[i].length; j++) {
+                if ( stat.equals(station_names[i][j])) {
+                    short [] r = {i, j};
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
+    /** Line number */
+    private short line = -1;
+    /** Station number */
+    private short stat = -1;
+    /** Station name */
+    private String StationName = null;
+    /** Time of transshipment */
+    private short transshipment_time = 0;
+    /**
      * Object constructor by station name
      * @author Lorenzo Radice
      * @param station_name name of the station
@@ -175,37 +257,6 @@ public class Station {
         return str;
     }
     /**
-     * Check if coordinates are valid
-     * @param line line
-     * @param stat station
-     * @return true if the coordinates are valid
-     */
-    public static boolean validCoordinates( short line, short stat ) {
-        boolean b = false;
-        b = line >= 0 && stat >= 0;
-        b = b && line < station_names.length && stat < station_names[line].length;
-        return b;
-    }
-    /**
-     * Check if the station is a transshipment one.
-     * If it is a transshipment station the method returns the transshipment time.
-     * If it is not a transshipment station the method returns 0.
-     * @author Lorenzo Radice
-     * @param station station to check
-     * @return transshipment time if it'a a transshipment station
-     */
-    private static short TrasTime( String station) {
-        switch (station) {
-            case transshipment.Charpennes:
-            case transshipment.HoteldeVille:
-            case transshipment.Bellecour:
-            case transshipment.SaxeGambetta:
-                return tras_time;
-            default:
-                return 0;
-        }
-    }
-    /**
      * Return the two possible coordinates which the transshipment station can have.
      * @author Lorenzo Radice
      * @return coordinates
@@ -227,25 +278,6 @@ public class Station {
                     return null;
             }
         }
-    }
-    /**
-     * This method returns an array of two shorts.
-     * First number is the index of the line.
-     * Second number is the index of the station.
-     * @author Lorenzo Radice
-     * @param stat station
-     * @return short[2] indexes of the station
-     */
-    private static short[] getStationIndexes( String stat ) {
-        for (short i = 0; i < station_names.length; i++) {
-            for (short j = 0; j < station_names[i].length; j++) {
-                if ( stat.equals(station_names[i][j])) {
-                    short [] r = {i, j};
-                    return r;
-                }
-            }
-        }
-        return null;
     }
     /**
      * Get Station Name
@@ -416,38 +448,6 @@ public class Station {
         }
         // Return time
         return return_time;
-    }
-    /**
-     * Calc the time of the path throw the stations.
-     * @author Lorenzo Radice
-     * @param stations stations
-     * @return sum
-     */
-    public static short timePath( Station[] stations ) {
-        short sum = 0;
-        boolean transshipment = false;
-        // For each station
-        for (short i = 0; i < stations.length - 1; i++) {
-            // If preavious station was a transshipment one check
-            if (transshipment) {
-                /* If the station before and the station after the transshipment one
-                 * are not on the same line add the transshipment time.
-                */
-                if (! stations[i+1].sameLine(stations[i-1])) {
-                    // Add the transshipment time
-                    sum += stations[i].getTransshipment_time();
-                }
-            }
-            if (stations[i].NearStationTime(stations[i+1]) < 0) {
-                System.err.println("Error timePath: Two stations are not near.");
-            }
-            // Add the time to reach the next station
-            sum += stations[i].NearStationTime(stations[i+1]);
-            // If the next station is a transshipment one keep in mind
-            transshipment = stations[i+1].isTransshipmentStation();
-        }
-        // Return the time
-        return sum;
     }
     /**
      * Get all the near stations

@@ -8,6 +8,12 @@ import java.util.*;
  * @version 1.0.0
  */
 public class alg_Astar {
+    /**
+     * Reconstruct path from start to goal
+     * @param cameFrom map of stations
+     * @param current current station
+     * @return list of stations
+     */
     public static List<Station> reconstructPath(Map<Station, Station> cameFrom, Station current) {
         List<Station> totalPath = new ArrayList<>();
         totalPath.add(current);
@@ -88,6 +94,9 @@ public class alg_Astar {
          */
         return Collections.emptyList(); // No path found
     }
+    /**
+     * Heuristic function interface
+     */
     public interface HeuristicFunction {
         /**
          * Heuristc function
