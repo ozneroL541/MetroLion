@@ -1,7 +1,7 @@
 package GFX;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import java.awt.Color;
 
 public abstract class MetroLine {
     protected String lineName;
