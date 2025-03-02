@@ -8,6 +8,9 @@ import javafx.scene.text.Text;
 
 public class MetroLineC extends MetroLine {
 
+    private static final String[] stations = {
+        "Cuire", "Hénon", "Croix-Rousse", "Croix-Paquet", "Hôtel de Ville - Louis Pradel",
+    };
 
     private static final int STATION_SPACING = 50;
     private static final int START_Y = 50;
@@ -17,9 +20,7 @@ public class MetroLineC extends MetroLine {
     private static final int pesos[] = { 2, 3, 2, 2};
 
     public MetroLineC(Pane root) {
-        super("B", Color.ORANGE, LINE_X, new String[]{
-            "Cuire", "Hénon", "Croix-Rousse", "Croix-Paquet", "Hôtel de Ville - Louis Pradel",
-        }, root);
+        super("B", Color.ORANGE, LINE_X, stations, root);
     }
 
     @Override

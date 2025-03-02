@@ -59,7 +59,7 @@ public class MetroMap extends Application {
     public void start(Stage primaryStage) {
         Pane root = new Pane();
         Scene scene = new Scene(root, 1280, 800);
-        primaryStage.setTitle("Mapa del Metro");
+        primaryStage.setTitle("Metro Map");
         primaryStage.setScene(scene);
 
         mostrarPantallaInicio(root, primaryStage);
@@ -76,8 +76,8 @@ public class MetroMap extends Application {
     }
 
     private VBox crearDesplegable(Stage primaryStage, Pane root) {
-        Label lblInicio = new Label("Inicio:");
-        Label lblDestino = new Label("Destino:");
+        Label lblInicio = new Label("Departure:");
+        Label lblDestino = new Label("Destination:");
         
         ComboBox<String> estacionInicio = new ComboBox<>();
         ComboBox<String> estacionDestino = new ComboBox<>();
@@ -85,7 +85,7 @@ public class MetroMap extends Application {
         estacionDestino.getItems().addAll(ESTACIONES_ORDENADAS);
 
         // Comienza la simulacion
-        Button btnIniciar = new Button("Iniciar Recorrido");
+        Button btnIniciar = new Button("Start Path");
         btnIniciar.setOnAction(e -> {
             listaEstaciones.clear();
             listaEstaciones.add(estacionInicio.getValue()); // con getValue se obtiene el String
@@ -129,7 +129,7 @@ public class MetroMap extends Application {
         new MetroLineD(root);
 
         // PESO DEL CAMINO OPTIMO
-        pesoTotal = new Label("Peso total: 0");
+        pesoTotal = new Label("Total Weight: 0");
         pesoTotal.setLayoutX(1280 - 150);
         pesoTotal.setLayoutY(40);
         root.getChildren().add(pesoTotal);
@@ -138,7 +138,6 @@ public class MetroMap extends Application {
         cuadradoAmarillo = new Rectangle(12, 12, Color.YELLOW);
         cuadradoAmarillo.setX(estaciones.values().iterator().next().getX());
         cuadradoAmarillo.setY(estaciones.values().iterator().next().getY());
-        root.getChildren().add(cuadradoAmarillo);
 
         actualizarContador(root, primaryStage);
     }
@@ -170,41 +169,39 @@ public class MetroMap extends Application {
     }
     
 
-public static void sumarPesoConexion(String estacionA, String estacionB) {
-    EstacionData dataEstacionA = estaciones.get(estacionA);
-    if (dataEstacionA != null) {
-        int pesoConexion = dataEstacionA.getPesoHacia(estacionB);
-        // System.out.println("Peso de " + estacionA + " a " + estacionB + ": " + pesoConexion);
+    public static void sumarPesoConexion(String estacionA, String estacionB) {
+        EstacionData dataEstacionA = estaciones.get(estacionA);
+        if (dataEstacionA != null) {
+            int pesoConexion = dataEstacionA.getPesoHacia(estacionB);
+            // System.out.println("Peso de " + estacionA + " a " + estacionB + ": " + pesoConexion);
 
-        int pesoActual = Integer.parseInt(pesoTotal.getText().split(": ")[1]);
-        // System.out.println("Peso actual antes de sumar: " + pesoActual);
+            int pesoActual = Integer.parseInt(pesoTotal.getText().split(": ")[1]);
+            // System.out.println("Peso actual antes de sumar: " + pesoActual);
 
-        pesoTotal.setText("Peso Total: " + (pesoActual + pesoConexion));
+            pesoTotal.setText("Total weight: " + (pesoActual + pesoConexion));
 
-        // System.out.println("Nuevo peso total: " + (pesoActual + pesoConexion));
+            // System.out.println("Nuevo peso total: " + (pesoActual + pesoConexion));
+        }
     }
-}
 
-private void moverCuadrado(String estacionA, String estacionB, Runnable onFinish) {
-    EstacionData dataEstacionA = estaciones.get(estacionA);
-    EstacionData dataEstacionB = estaciones.get(estacionB);
-    if (dataEstacionA != null && dataEstacionB != null) {
-        // Camino de la animacion
-        Line path = new Line(dataEstacionA.getX(), dataEstacionA.getY(), dataEstacionB.getX(), dataEstacionB.getY());
+    private void moverCuadrado(String estacionA, String estacionB, Runnable onFinish) {
+        EstacionData dataEstacionA = estaciones.get(estacionA);
+        EstacionData dataEstacionB = estaciones.get(estacionB);
+        if (dataEstacionA != null && dataEstacionB != null) {
+            // Camino de la animacion
+            Line path = new Line(dataEstacionA.getX(), dataEstacionA.getY(), dataEstacionB.getX(), dataEstacionB.getY());
 
-        // Efectos de la transicion del tren
-        PathTransition transition = new PathTransition();
-        transition.setNode(cuadradoAmarillo);
-        transition.setPath(path);
-        transition.setDuration(Duration.seconds(5));
-        transition.setCycleCount(1);
+            // Efectos de la transicion del tren
+            PathTransition transition = new PathTransition();
+            transition.setNode(cuadradoAmarillo);
+            transition.setPath(path);
+            transition.setDuration(Duration.seconds(1));
+            transition.setCycleCount(1);
 
-        transition.setOnFinished(e -> onFinish.run());
+            transition.setOnFinished(e -> onFinish.run());
 
-        transition.play();
+            transition.play();
+        }
     }
-}
-
-
 
 }

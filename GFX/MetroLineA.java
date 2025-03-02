@@ -7,7 +7,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 public class MetroLineA extends MetroLine {
-
+    private static final String[] stations = {
+        "Perrache", "Ampère\n- Victor Hugo", "Bellecour", "Cordeliers",
+        "Hôtel de\nVille - Louis\nPradel", "Foch", "Masséna", "Charpennes\n- Charles\nHernu",
+        "République\n- Villeurbanne", "Gratte-Ciel", "Flachet", "Cusset",
+        "Laurent\nBonnevay\n- Astroballe", "Vaulx-en-Velin\n- La Soie"
+        
+    };
     private static final int STATION_SPACING = 70;
     private static final int LINE_Y = 250;
     private static final int OFFSET_X = -30;
@@ -16,13 +22,7 @@ public class MetroLineA extends MetroLine {
     private static final int pesos[] = { 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 2, 2};
 
     public MetroLineA(Pane root) {
-        super("A", Color.RED, LINE_Y, new String[]{
-            "Perrache", "Ampère\n- Victor Hugo", "Bellecour", "Cordeliers",
-            "Hôtel de\nVille - Louis\nPradel", "Foch", "Masséna", "Charpennes\n- Charles\nHernu",
-            "République\n- Villeurbanne", "Gratte-Ciel", "Flachet", "Cusset",
-            "Laurent\nBonnevay\n- Astroballe", "Vaulx-en-Velin\n- La Soie"
-            
-        }, root);
+        super("A", Color.RED, LINE_Y, stations, root);
     }
 
     @Override

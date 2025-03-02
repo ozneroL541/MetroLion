@@ -8,19 +8,21 @@ import javafx.scene.text.Text;
 
 public class MetroLineD extends MetroLine {
 
+    private static final String[] stations = {
+        "Gare de Vaise", "Valmy", "Gorge de Loup",
+        "Vieux Lyon - Cathédrale Saint-Jean",
+        "Bellecour", "Guillotière - Gabriel Péri", "Saxe - Gambetta", "Garibaldi",
+        "Sans Souci", "Monplaisir - Lumière", "Grange Blanche", 
+        "Laënnec", "Mermoz - Pinel", "Parilly", "Gare de Vénissieux"
+    };
+
     private static final int NUM_STATIONS = 15;
     private static final int OFFSET_X = 10;
     private static final int OFFSET_Y = 5;
     private static final int pesos[] = { 1, 2, 3, 2, 1, 2, 1, 3, 1, 2, 1, 2, 2, 2};
 
     public MetroLineD(Pane root) {
-        super("D", Color.GREEN, 0, new String[] {
-            "Gare de Vaise", "Valmy", "Gorge de Loup",
-            "Vieux Lyon - Cathédrale Saint-Jean",
-            "Bellecour", "Guillotière - Gabriel Péri", "Saxe - Gambetta", "Garibaldi",
-            "Sans Souci", "Monplaisir - Lumière", "Grange Blanche", 
-            "Laënnec", "Mermoz - Pinel", "Parilly", "Gare de Vénissieux"
-        }, root);
+        super("D", Color.GREEN, 0, stations, root);
     }
 
     @Override
