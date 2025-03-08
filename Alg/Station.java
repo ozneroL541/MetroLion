@@ -1,6 +1,7 @@
 package Alg;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Station
@@ -12,11 +13,24 @@ public class Station {
      * Set of metro lines
      * @author Lorenzo Radice
      */
-    private static final class line_num {
-        private static final short A = 0;
-        private static final short B = 1;
-        private static final short C = 2;
-        private static final short D = 3;
+    private enum LineNum {
+        A(0), B(1), C(2), D(3);
+        /** Value */
+        private final short value;
+        /**
+         * Constructor
+         * @param value value
+         */
+        LineNum(int value) {
+            this.value = (short) value;
+        }
+        /**
+         * Get value
+         * @return value
+         */
+        public short getValue() {
+            return value;
+        }
     }
     /**
      * Set of transshipment
@@ -27,10 +41,10 @@ public class Station {
         private final static String HoteldeVille = "Hôtel de Ville - Louis Pradel";
         private final static String Bellecour = "Bellecour";
         private final static String SaxeGambetta = "Saxe - Gambetta";
-        private final static short[][] Charpennes_coor = { {line_num.A, line_num.B}, {7, 0} };
-        private final static short[][] HoteldeVille_coor = { {line_num.A, line_num.C}, {4, 0} };
-        private final static short[][] Bellecour_coor = { {line_num.A, line_num.D}, {2, 4} };
-        private final static short[][] SaxeGambetta_coor = { {line_num.B, line_num.D}, {4, 6} };
+        private final static short[][] Charpennes_coor = { {LineNum.A.getValue(), LineNum.B.getValue()}, {7, 0} };
+        private final static short[][] HoteldeVille_coor = { {LineNum.A.getValue(), LineNum.C.getValue()}, {4, 0} };
+        private final static short[][] Bellecour_coor = { {LineNum.A.getValue(), LineNum.D.getValue()}, {2, 4} };
+        private final static short[][] SaxeGambetta_coor = { {LineNum.B.getValue(), LineNum.D.getValue()}, {4, 6} };
     }
     /**
      * Index of metro line
@@ -285,7 +299,7 @@ public class Station {
      * @return StationName
      */
     public String getStationName() {
-        return StationName;
+        return this.StationName;
     }
     /**
      * Get line
@@ -293,7 +307,7 @@ public class Station {
      * @return line
      */
     public short getLine() {
-        return line;
+        return this.line;
     }
     /**
      * Get station
@@ -301,7 +315,7 @@ public class Station {
      * @return station
      */
     public short getStat() {
-        return stat;
+        return this.stat;
     }
     /**
      * Get time of transshipment
@@ -309,7 +323,7 @@ public class Station {
      * @return transshipment_time
      */
     public short getTransshipment_time() {
-        return transshipment_time;
+        return this.transshipment_time;
     }
     /**
      * Check for station existance
@@ -568,7 +582,7 @@ public class Station {
      * @param goal goal station
      * @return h(n)
      */
-    public int heuristic( Station goal ) {
+    public int heuristic( Station goal ){
         int r = 0;
         // If they are on the same line
         if ( sameLine(goal) ) {
@@ -579,28 +593,38 @@ public class Station {
         return r;
     }
     /**
+     * Calc the path between two stations.
+     * @param destination destination station
+     * @return path
+     */
+    public List<Station> pathToDestination(Station destination) {
+        return alg_Astar.aStarSearch(this, destination);
+    }
+    /**
+     * Calc the time to reach the destination station
+     * @param destination destination station
+     * @return time
+     */
+    public int timeToDestination(Station destination) {
+        List<Station> path = pathToDestination(destination);
+        return timePath(path.toArray(new Station[0]));        
+    }
+    /**
      * Calc a probable H(n) to arrive to the nearest transshipment station
      * @author Lorenzo Radice
      * @return partial h(n)
      */
     private int probable_h() {
         int r = 40;
-        switch (this.line) {
-            case line_num.A:
-                r = 11;
-                break;
-            case line_num.B:
-                r = 10;
-                break;
-            case line_num.C:
-                r = this.stat;
-                break;
-            case line_num.D:
-                r = Math.abs(transshipment.Bellecour_coor[i_stat][1] - this.stat);
-                break;
-            default:
-                r = 40;
-                break;
+        if (this.line == LineNum.A.getValue()) {
+            r = 11;
+            
+        } else if (this.line == LineNum.B.getValue()) {
+            r = 10;
+        } else if (this.line == LineNum.C.getValue()) {
+            r = this.stat;
+        } else if (this.line == LineNum.D.getValue()) {
+            r = Math.abs(transshipment.Bellecour_coor[i_stat][1] - this.stat);
         }
         return r;
     }

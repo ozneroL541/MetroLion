@@ -32,7 +32,7 @@ public class alg_Astar {
      * @param h
      * @return list of stations
      */
-    public static List<Station> aStarSearch(Station start, Station goal, HeuristicFunction h) {
+    public static List<Station> aStarSearch(Station start, Station goal) {
         /*
         * The set of discovered nodes that may need to be (re-)expanded.
         * Initially, only the start node is known.
@@ -107,5 +107,13 @@ public class alg_Astar {
         static int estimateCost(Station node, Station goal) {
             return node.heuristic(goal);
         }
+    }
+
+
+    public static void main(String[] args) {
+        Station s2 = new Station("Bellecour");
+        Station s1 = new Station("Charpennes - Charles Hernu");
+        Station s3 = new Station("Hôtel de Ville - Louis Pradel");
+        System.out.println(s1.pathToDestination(s3));
     }
 }

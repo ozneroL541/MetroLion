@@ -32,7 +32,7 @@ public class MetroMap extends Application {
     private static List<String> listaEstaciones = new ArrayList<>();
     private static Label pesoTotal;
     private Rectangle cuadradoAmarillo;
-        private static final List<String> ESTACIONES_ORDENADAS = Arrays.asList(
+    private static final List<String> ESTACIONES_ORDENADAS = Arrays.asList(
         "Ampère - Victor Hugo", "Bellecour", "Brotteaux", "Charpennes - Charles Hernu",
         "Cordeliers", "Croix-Paquet", "Croix-Rousse", "Cuire", "Cusset", "Debourg",
         "Flachet", "Foch", "Garibaldi", "Gare de Vaise", "Gare de Vénissieux",
@@ -98,7 +98,7 @@ public class MetroMap extends Application {
 
             // Llama a aStarSearch
             if (startStation != null && goalStation != null) {
-                List<Station> path = alg_Astar.aStarSearch(startStation, goalStation, null);
+                List<Station> path = alg_Astar.aStarSearch(startStation, goalStation);
                 listaEstaciones.clear(); // Limpia la lista actual
                 for (Station station : path) {
                     listaEstaciones.add(station.getStationName()); // Asumiendo que Station tiene un método getName()
